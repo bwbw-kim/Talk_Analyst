@@ -19,15 +19,17 @@ class Analyst:
         try:
             matchobj = self.regex.search(msg)
             map = { 'name':matchobj.group(1), 'msg':matchobj.group(3)}
-            return map
         except:
-            return None, None
+            map = { 'name':None, 'msg':None}
+        return map
 
     def remove_unnecessary_word(self, msg):
         temp_msg = msg
         for item in self.unnecessary_list:
             temp_msg = temp_msg.replace(item,"")
         for item in self.helper_list:
+            if len(temp_msg) == 0:
+                break
             if temp_msg[-1] == item:
                 temp_msg = temp_msg[:-1]
         if len(temp_msg) <= 1:
@@ -43,10 +45,10 @@ class Analyst:
             if map['msg'] != None:
                 splited_msg = map['msg'].split()
                 for word in splited_msg:
-                    self.append_word(word)
+                    self.append_word(map['name'], word)
                 for i in range(len(splited_msg) - 1):
                     word = splited_msg[i] + splited_msg[i+1]
-                    self.append_word(word)
+                    self.append_word(map['name'], word)
         return self.make_tags()
 
     def make_tags(self):
@@ -58,10 +60,10 @@ class Analyst:
         if name not in self.word_dic_list:
              self.word_dic_list[name] = []
 
-    def append_word(self, word):
+    def append_word(self, name, word):
         deboned_word = self.remove_unnecessary_word(word)
         if deboned_word:
-            self.word_dic_list[map['name']].append(deboned_word)
+            self.word_dic_list[name].append(deboned_word)
             self.word_list.append(deboned_word)
 
 
@@ -70,8 +72,6 @@ class Analyst:
 
 # wc = WordCloud(font_path="malgun",background_color="white", max_font_size=60)
 # cloud = wc.generate_from_frequencies(dict(tags))
-
-# rows=len(word_dic_list)
 
 # fig, ax = plt.subplots(1, 1, figsize=(12.5,6.5))
 # font_path = 'fonts/H2GTRM.ttf'
