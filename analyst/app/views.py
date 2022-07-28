@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from matplotlib import pyplot as plt
 import matplotlib
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from wordcloud import WordCloud
@@ -9,6 +10,11 @@ import base64
 import uuid
 import os
 
+@csrf_exempt
+def Controller(request):
+    return render(request, 'empty.html')
+
+@csrf_exempt
 @api_view(['POST'])
 def Views(request):
     lines = request.data['msg'].split("\n")

@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import Views
+from app.views import Controller
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('analyse/', Views),
+    path('home/', Controller),
 ]

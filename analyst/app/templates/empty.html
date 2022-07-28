@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Empty page - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
     <!-- CSS files -->
-    <link href="{% static '/dist/css/drop.min.css' %}" rel="stylesheet"/>
+    <link href="{% static '/dist/css/dropzone.min.css' %}" rel="stylesheet"/>
     <link href="{% static '/dist/css/tabler.min.css' %}" rel="stylesheet"/>
     <link href="{% static '/dist/css/tabler-flags.min.css' %}" rel="stylesheet"/>
     <link href="{% static '/dist/css/tabler-payments.min.css' %}" rel="stylesheet"/>
@@ -30,9 +30,6 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-            <a href=".">
-              <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
-            </a>
           </h1>
         </div>
       </header>
@@ -46,8 +43,8 @@
                   <div class="col-md-12">
                     <div class="card">
                       <div class="card-body">
-                        <h3 class="card-title">Basic Usage</h3>
-                        <form class="dropzone dz-clickable" id="dropzone-default" action=".">
+                        <h3 class="card-title">PC 카톡에서 대화방.txt 를 아래에 첨부하세요</h3>
+                        <form class="dropzone dz-clickable" id="dropzonekakao" action=".">
                           
                         <div class="dz-default dz-message"><button class="dz-button" type="button">Drop files here to upload</button></div></form>
                       </div>
@@ -60,7 +57,9 @@
         </div>
         <div class="page-body">
           <div class="container-xl">
-            <!-- Content here -->
+            <div id="image_zone" class="card">
+
+            </div>
           </div>
         </div>
         <footer class="footer footer-transparent d-print-none">
@@ -103,12 +102,41 @@
     <!-- Tabler Core -->
     <script src="{% static '/dist/js/tabler.min.js' %}"></script>
     <script src="{% static '/dist/js/demo.min.js' %}"></script>
-    <script src="{% static '/dist/js/drop.min.js' %}"></script>
+    <script src="{% static '/dist/js/dropzone-min.js' %}"></script>
+    <script src="{% static '/dist/js/dropzone.js' %}"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script> 
     <script>
-      // @formatter:off
+      Dropzone.autoDiscover = false;
+      
       document.addEventListener("DOMContentLoaded", function() {
-        new Dropzone("#dropzone-default")
+        new Dropzone("#dropzonekakao")
       })
+
+      Dropzone.options.dropzonekakao = {
+          maxFilesize: 10, // Mb
+          maxFiles: 1,
+          addRemoveLinks: true,
+          accept: function(file, done) {
+              var reader = new FileReader();
+              reader.readAsText(file);
+              reader.onload = function() {
+                console.log(reader.result)
+                // setTimeout('', 5000);
+                // $.ajax({
+                //   url: '/analyse/',
+                //   type: 'post',
+                //   data: {'msg' : reader.result},
+                //   success: function (data){
+                //     document.querySelector("#image_zone").innerHTML = '<img src="data:image/jpb;base64,' + data + '"></img>'
+                //   },
+                //   error: function (error){
+                //       alert("새로 고침 필요");
+                //   }
+                // });
+              };
+          },
+          
+      };
     </script>
   </body>
 </html>
